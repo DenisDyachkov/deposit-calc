@@ -8,10 +8,16 @@ float getPercentOfInc(int days, float deposit)
 
 int inputData(int* days, int* deposit)
 {
+    printf("Please input days: ");
+    scanf("%d", days);
+    printf("Please input deposit: ");
+    scanf("%d", deposit);
     return 1;
 }
 
 int main()
 {
+    int days, deposit;
+    inputData(&days, &deposit);
     return 0;
 }
