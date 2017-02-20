@@ -1,4 +1,10 @@
 CFLAG=-Wall 
 
-main: main.c
-	gcc $(CFLAG) -o main main.c
+main: main.o
+	gcc $(CFLAG) -o main main.o
+
+main.o: main.c
+	gcc -c main.c
+
+clean: 
+	rm main *.o
