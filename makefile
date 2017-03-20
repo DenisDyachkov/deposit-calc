@@ -1,10 +1,19 @@
-CFLAG=-Wall 
+CFLAG = -Wall -Werror -o
+BIN_DIR = bin
+BUILD_DIR = build
+SRC_DIR = src
 
-main: main.o
-	gcc $(CFLAG) -o main main.o
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+TARGET = $(BIN_DIR)/main
 
-main.o: main.c
-	gcc -c main.c
+$(TARGET): $(OBJ)
+	@gcc $(CFLAG) $@ $(OBJ)
+
+$(OBJ): $(BUILD_DIR)/%.o : $(SRC_DIR)/%.c
+	@gcc -c $(CFLAG) $@ $<
+
+.PHONY: clean
 
 clean: 
-	rm main *.o
+	@rm -f $(BUILD_DIR)/*.o $(BIN_DIR)/main

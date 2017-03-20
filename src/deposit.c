@@ -1,3 +1,4 @@
+#include "deposit.h"
 #include <stdio.h>
 
 const int depDelim = 100000;
@@ -39,15 +40,7 @@ int inputData(int *days, int *deposit)
     return 1;
 }
 
-int main()
+float getIncome(int days, float deposit)
 {
-    int days, deposit;
-    if (!inputData(&days, &deposit)) {
-        return 1;    
-    }
-    
-    float income = deposit * getPercentOfInc(days, deposit);
-    printf("Income: %.2f\n", income);  
-   
-    return 0;
+    return deposit * getPercentOfInc(days, deposit);
 }
