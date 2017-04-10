@@ -1,6 +1,7 @@
-build/*.o
+build/*
 src/.*.swp
 src/*~
 src/#*#
-bin/main
+bin/*
 */*.bk
+*.bk

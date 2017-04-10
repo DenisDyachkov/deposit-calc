@@ -18,14 +18,26 @@ float getPercentOfInc(int days, float deposit)
     return percent;
 }
 
+int validationData(int days, int deposit)
+{
+    if (days < 0 || days > 365) {
+        printf("Out of range days\n");
+        return 0;
+    }
+    
+    if (deposit < 10000) {
+        printf("Deposit is too small\n");
+        return 0;
+    }
+    
+    return 1;
+}
+
 int inputData(int *days, int *deposit)
 {
     printf("Please input days: ");
     if (!scanf("%d", days)) {
         printf("Days is incorrect\n");
-        return 0;
-    } else if (*days < 0 || *days > 365) {
-        printf("Out of range days\n");
         return 0;
     }
 
@@ -33,11 +45,9 @@ int inputData(int *days, int *deposit)
     if (!scanf("%d", deposit)) {
         printf("Deposit is incorrect\n");
         return 0;
-    } else if (*deposit < 10000) {
-        printf("Deposit is too small\n");
-        return 0;
     }
-    return 1;
+    
+    return validationData(*days, *deposit);
 }
 
 float getIncome(int days, float deposit)
