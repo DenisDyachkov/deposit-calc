@@ -2,6 +2,7 @@ CFLAG = -Wall -Werror -o
 BIN_DIR = bin
 BUILD_DIR = build/src
 SRC_DIR = src
+CC = gcc
 
 SRC = $(wildcard $(SRC_DIR)/*.c)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
@@ -14,13 +15,22 @@ OBJ_TEST = $(SRC_TEST:$(SRC_DIR_TEST)/%.c=$(BUILD_DIR_TEST)/%.o)
 TARGET_TEST = $(BIN_DIR)/deposit-calc-test
 
 $(TARGET): $(OBJ)
-	@gcc $(CFLAG) $@ $(OBJ)
+	@$(CC) $(CFLAG) $@ $(OBJ)
 
 $(OBJ): $(BUILD_DIR)/%.o : $(SRC_DIR)/%.c
-	@gcc -c $(CFLAG) $@ $<
+	@$(CC) -c $(CFLAG) $@ $<
 
 .PHONY: clean
 
 clean: 
-	@rm -f $(BUILD_DIR)/*.o $(BIN_DIR)/main
+	@rm -f $(BUILD_DIR)/*.o $(TARGET)
+	@rm -f $(BUILD_DIR_TEST)/*.o $(TARGET_TEST)
 
+$(TARGET_TEST): $(OBJ_TEST) $(OBJ)
+	@$(CC) $(CFLAG) $@ $(OBJ_TEST) $(BUILD_DIR)/deposit.o
+
+$(OBJ_TEST): $(BUILD_DIR_TEST)/%.o : $(SRC_DIR_TEST)/%.c
+	@$(CC) -I $(SRC_DIR) -I thirdparty -c $< $(CFLAG) $@
+
+.PHONY: testing
+testing: $(TARGET_TEST)
